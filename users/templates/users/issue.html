@@ -1,0 +1,23 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags	%}
+
+{% block title %}
+<title>Report Problems to DUCE-ELearn</title>
+{% endblock title %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+          <!-- to secure the form -->
+          {% csrf_token %}
+          <fieldset class="form-group">
+            <legend class="border-bottom mb-4">
+              <strong>If You Found any Problems Using ADDIS CHAT Report Them Here.</strong></legend>
+            {{ form|crispy }}
+          </fieldset>
+          <div class="form-group">
+            <button class="btn btn-outline-success" type="submit">Report Problem</button>
+          </div>
+        </form>
+    </div>
+{% endblock content %}

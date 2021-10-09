@@ -1,0 +1,38 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+   <link rel="shortcut icon" type="image/jpg" href="{% static 'main/images/logo.jpg' %}">
+
+<div id="branding">
+  {% block branding %}
+    <h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+    <img src="{% static 'main/images/favicon.ICO' %}" height="50px" />
+    ADDIS CHAT <sub style="color:lavender;">Admin Dashboard</sub>
+    </a>
+    </h1>
+  {% endblock %}
+</div>
+
+{% block footer %}
+ <div id="footer" class="footer footer-expand-md footer-dark bg-dark text-black ">
+ <br>
+   <div class="container">
+     <small>
+       <a href="https://yemybold.herokuapp.com/help" target="_blank"> <img src="{% static 'main/images/help.ICO' %}" alt="need"> Help</a>
+       <a href="{% url 'feedBack' %}" target="_blank"> <img src="{% static 'main/images/feedback.png' %}" alt="need">FeedBack</a>
+       <a href="{% url 'issues' %}" target="_blank"> <img src="{% static 'main/images/Problem.png' %}" alt="need">Report a bug/Problem</a>
+
+   {# Footer branding name (center) #}
+   {% block footer_branding %}
+   {% endblock footer_branding %}
+
+   {# Footer copyright (right side) #}
+   {% block copyright %}
+         <strong class="container"> Copyright &copy; <script>document.write(new Date().getFullYear());</script> | Developed @<a href="https://www.dec.edu.et" target="_blank">Defence University, College of Engineering</a> Developed By <a href="www.yemybold.herokuapp.com">Yemi_Bold</a></strong>
+   </small>
+   {% endblock copyright %}
+    <br><br>
+   </div>
+ </div>
+{% endblock %}

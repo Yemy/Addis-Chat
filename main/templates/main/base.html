@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- Required meta tags -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+   <link rel="stylesheet" href="{% static 'tinymce/css/prism.css' %}">
+   <link rel="stylesheet" type="text/css" href="{% static 'main/css/bootstrap.min.css' %}">
+   <link rel="stylesheet" type="text/css" href="{% static 'main/main.css' %}">
+   <link rel="shortcut icon" type="image/ICO" href="{% static 'main/images/favicon.ICO' %}">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'main/css/font-awesome.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'main/css/font-awesome.min.css' %}">
+
+{% block title %}
+  {% if title %}
+     <title>{{title}}</title>
+  {% else %}
+    {% if user.is_staff %}
+      <title>Wellcome to ADDIS CHAT | Employees Home Page</title>
+    {% else %}
+      <title>Wellcome to ADDIS CHAT | Users Home Page</title>
+    {% endif %}
+  {% endif %}
+{% endblock title %}
+    
+  <script>window.popoverX_0702f46a = {"show":false};</script> 
+
+</head>
+<body>
+ <header class="site-header">
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container" style="margin-top:-13px; margin-bottom:-10px;">
+     <a class="navbar-brand mr-4" href="{% url 'main-home' %}"><img style="background: transparent;" src="{% static 'main/images/favicon.ICO' %}">  </a>
+     <a class="navbar-brand mr-4" href="{% url 'main-home' %}" style="margin-left: -85px;">ADDIS CHAT </a><br>
+  {% if user.is_authenticated %}
+      {% if user.is_staff  %}
+        <small style="color:lavender;">Wellcome Back:  <a style="color:white;" href="{% url 'profile' %}">{{user.username.upper}}</a>   (Employee)</small>
+      {% else %}
+        <small style="color:lavender;">Wellcome Back:  <a style="color:white;" href="{% url 'profile' %}"> {{user.username.upper}}</a>  (User)</small>
+        {% endif %}
+    {% endif %}
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+        </button>
+         <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav mr-auto">
+            </div>
+
+             <!-- Navbar Right Side -->
+         <div class="navbar-nav">
+
+
+               <a class="nav-item nav-link active" href="{% url 'main-home' %}"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+               {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                {% endif %}
+                <a class="nav-item nav-link" href="#postCreate"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Post</a>
+               <a class="nav-item nav-link" href="#message"> <i class="fa fa-envelope-o" aria-hidden="true"></i> Messages</a>
+               <a class="nav-item nav-link" href="#notification"> <i class="fa fa-bell-o" aria-hidden="true"></i> Notifications</a>
+              <style>
+                #item:hover{
+                  background: black;
+                }
+              </style>
+
+<!-- Choose the better Yemi -->
+              <ul class="nav-item">
+              <li>
+              <a class="nav-item nav-link dropdown-toggle" href="#"
+              data-toggle="dropdown" style="margin-left:-40px;">Account</a>
+              <div class="dropdown-menu dropdown-menu-right"
+              aria-labelledby="userMenu" style="background:#343a40;" >
+              <a class="dropdown-item fa fa-profile" id="item" style="color:lavender;" href="{% url 'profile' %}">
+              <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item fa fa-password " id="item" style="color:lavender;"
+              href="{% url 'password_change'%}"><i class="fa fa-key" aria-hidden="true"></i> Change password</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item fa fa-logout" id="item" style="color:lavender;" href="{% url 'logout' %}">
+              <i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a>
+              </div>
+              </li>
+              </ul>
+
+              {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+                <a class="nav-item nav-link" href="{% url 'register'%}"><i class="fa fa-user-plus" aria-hidden="true"></i> Register</a>
+              {% endif %}
+            </div>
+          </div>
+     </div>
+    </nav>
+ </header>
+ <main role="main" class="container">
+   <div class="row">
+     <div class="col-md-8">
+       <br><br><br>
+       {% if messages %}
+         {% for message in messages %}
+         <div class="alert alert-{{ message.tags }}">
+           {{ message }}
+         </div>
+         {% endfor %}
+       {% endif %}
+       <div class="container">
+        <div>
+         {% block content %}
+         {% endblock %}          
+        </div>
+
+       </div>
+     </div>
+<!--      <div class="col-md-4">
+       <br><br><br><br>
+       {% if user.is_authenticated %}
+          <div class="content-section">
+            <h3>CheckList</h3>
+            <p class='text-muted'>This Section is for checklist of online students, total students, courses, chapters, and Topics.
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light"> <a href="#" class=" btn btn-outline-info"> Notices</a></li>
+                <li class="list-group-item list-group-item">
+                <a class="dropdown-toggle btn btn-outline-primary" href="#"
+                data-toggle="dropdown">
+                Assignment
+                </a>
+              <div class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="userMenu">
+                <a class="dropdown-item"href="#">
+                View Assignments</a>
+                <div class="dropdown-divider"></div>
+                  <a class="dropdown-item"
+                  href="#">New Assignment</a>
+                <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">
+                  Submited Assignments</a>
+              </div>
+                </li>
+                <li class="list-group-item list-group-item-light">Courses:
+                  <h5 style="color:green;">{{courses}}</h5>
+                </li>
+                <li class="list-group-item list-group-item-light">Chapters:
+                  <h5 style="color:green;">{{chapters}}</h5>
+                </li>
+                <li class="list-group-item list-group-item-light">Topics:
+                  <h5 style="color:green;">{{topics}}</h5>
+                </li>
+              </ul>
+            </p>
+          </div>
+		<br>
+       {% endif %}
+     </div> -->
+   </div>
+ </main>
+ <br><br><br>
+
+{% block footer %}
+  <div id="footer" class="footer footer-expand-md footer-dark bg-dark text-white ">
+    <br>
+     <div class="container">
+       <small>
+         <a href="https://yemybold.herokuapp.com/help" target="_blank"> <img src="{% static 'main/images/help.ICO' %}" alt="need"> Help</a>
+         <a href="{% url 'feedBack' %}" target="_blank"> <img src="{% static 'main/images/feedback.png' %}" alt="need">FeedBack</a>
+         <a href="{% url 'issues' %}" target="_blank"> <img src="{% static 'main/images/Problem.png' %}" alt="need">Report a bug/Problem</a>
+
+       <strong class="container"> Copyright &copy; <script>document.write(new Date().getFullYear());</script> | Developed @<a href="https://www.dec.edu.et" target="_blank">Defence University, College of Engineering</a> Developed By <a href="www.yemybold.herokuapp.com">Yemi_Bold</a> </strong>
+     </small>
+      <br><br>
+
+      <div class="popover-x-marker" style="display: none;"></div>    <div class="pull-right hidden-xs">
+            Developers: 
+                <img src="/uploads/photo/devs/img1.jpg" alt="image" id="ppww" class="img img-circle profilePopover" style="cursor: pointer;" width="30px" height="35px">
+                <strong>Yemane Birhane</strong><hr>
+            </div>
+
+    </div>
+<!-- include font awesome for this section  Yemi -->
+   <div style="background-color: black;">
+     <div id="contact-us" style="margin-top: -35px;"><hr>
+        Contact Us Via:
+        <a href="https://www/facebook.com/yemi bold">FaceBook</a>
+        <a href="https://www/instagram.com/yemi bold" style="color: #dd4b39;">Instagram</a>
+        <a href="https://www/twitter.com/yemi bold"  style="color: #55acee;">Twitter</a>
+        <a href="https://www/whatsup.com/yemi bold" style="color: green;">WhatsUp</a><hr><hr>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+  <script type="text/javascript" src="{% static 'main/js/jquery-3.5.1.js' %}"> </script>
+  <script type="text/javascript" src="{% static 'main/js/popper.min.js' %}"> </script>
+  <script type="text/javascript" src="{% static 'main/js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% extends 'main/base.html'%}
+    {% block title %}
+    <title>Notices</title>
+    {% endblock title %}
+    {% block content %}
+      {% if user.is_authenticated %}
+        {% for notice in Notices%}
+          {% if user.is_staff %}
+            {% if notice.author == user %}
+              <article class="media content-section">
+                {% if notice.author.profile.image %}
+                <img class="rounded-circle article-img" src="{{ notice.author.profile.image.url }}" alt="">
+                {% endif %}
+                <div class="media-body">
+                  <h2>Title:<strong> <a class="article-title" href="{% url 'notice-detail' notice.id %}">{{ notice.title|safe }}</a></strong></h2>
+                  <div class="article-metadata">
+                    <small class="text-muted">on: {{ notice.date_published }} By: {{notice.author}}</small>
+                  </div>
+                  <p>{{ notice.content|safe }}</p>
+                </div>
+              </article>
+            <br>
+
+          {% endif %}
+        {% else %}
+        <!-- the longest if condition ever -->
+          {% if notice.course.classLevel == user.profile.classLevel and notice.course.department == user.profile.department and notice.course.specialization == user.profile.specialization  %}
+            <article class="media content-section">
+              <img class="rounded-circle article-img" src="{{ notice.author.profile.image.url }}" alt="">
+              <div class="media-body">
+                <h2>Notice from:<strong class="article-title">{{ notice.course|safe }}</strong></h2>
+                <div class="article-metadata">
+                  <small class="text-muted">on: {{ notice.date_published }} By: {{notice.author}}</small>
+                </div>
+                <p>{{ notice.content|safe }}</p>
+              </div>
+            </article>
+            <br>
+          {% endif %}
+        {% endif %}
+       {% endfor %}
+       
+       <!-- paginations -->
+       {% if is_paginated %}
+        {% if page_obj.has_previous %}
+          <a class="btn btn-outline-info mb-4"href="?page=1">First</a>
+          <a class="btn btn-outline-info mb-4"href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4"href="?page={{ num }}">{{ num }}</a>
+          {% elif num > page_obj.number|add:'-4' and num < page_obj.number|add:'4' %}
+                <a class="btn btn-outline-info mb-4"href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <a class="btn btn-outline-info mb-4"href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a class="btn btn-outline-info mb-4"href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+       {% endif %}
+     {% else %}
+     <div class="container"  style="background-color: indigo;">
+      <div class="jumbotron">
+        <div class="container text-center">
+        <h2>Please <a href="{% url 'login' %}">Login </a> or <a href="{% url 'register' %}"> Register </a> to Continue!</h2>
+         </div>
+       </div>
+     </div>
+      {% endif %}
+   {% endblock %}

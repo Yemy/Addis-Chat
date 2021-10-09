@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />  
+    <meta charset="utf-8">
+    <title>Login|Addis Chat</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/login.css'%}">
+</head>
+<body>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div class="loginbox" style="margin: 5% auto;" >
+    <img src="{% static 'main/images/avatar.png' %}" class="avatar">
+        <h1 style="color: white;"> <strong> Login </strong> <img src="{% static 'main/images/key.ico' %}"> </h1>
+        <form method="post">
+            {% csrf_token  %}
+            {{  form.as_p   }}  
+            <input type="submit" name="" value="Login">
+            <a href="{% url 'password_reset' %}">Lost your password?</a><br>
+            <a href="{% url 'register' %}">Don't have an account?</a>
+        </form>
+        
+    </div>
+
+</body>
+{% endblock %}

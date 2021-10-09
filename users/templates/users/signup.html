@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<head>
+  <title> Signup for Addis Chat </title>   
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}">
+</head>
+<body>
+    <div id="login-box">
+      <div class="left-box">
+        <h1 style="color: white;"> <strong>Sign Up</strong> </h1>
+        
+    <form method="post"> 
+       {%  csrf_token  %}
+       {{  form|crispy }}    
+       <input id="signup"  type="submit" name="signup-button" value="Sign Up"/>
+        <small><a class="fa fa-login" href="{% url 'login' %}">Login
+        </a></small>
+     </form>
+    </div>
+        <div class="right-box">
+        <span class="signinwith">Sign in with</span>
+        <button class="social facebook">Log in with Facebook</button>    
+        <button class="social twitter">Log in with Twitter</button> 
+        <button class="social google">Log in with Google+</button> 
+        </div>
+        <div class="or">OR</div>
+    </div>    
+</body>    
+{% endblock %}
